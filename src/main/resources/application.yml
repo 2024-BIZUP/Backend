@@ -3,9 +3,9 @@ spring:
     name: bizup
 
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://localhost:3306/bizup
+    username: root
+    password: 7337
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
