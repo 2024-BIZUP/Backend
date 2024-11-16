@@ -1,12 +1,10 @@
 package com.likelion.bizup.module.user.entity;
 import com.likelion.bizup.global.common.BaseTime;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Getter
 public class User extends BaseTime {
     @Id
