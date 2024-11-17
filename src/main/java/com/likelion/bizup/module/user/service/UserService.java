@@ -1,10 +1,11 @@
 package com.likelion.bizup.module.user.service;
 
+import com.likelion.bizup.global.error.UserStatusCode;
+import com.likelion.bizup.global.error.exception.UserException;
 import com.likelion.bizup.module.jwt.service.JwtTokenProvider;
 import com.likelion.bizup.module.user.dto.request.UserRegistrationDto;
 import com.likelion.bizup.module.user.entity.User;
 import com.likelion.bizup.module.user.repository.UserRepository;
-import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     public User registerUser(UserRegistrationDto dto) {
         if (userRepository.existsByEmail(dto.getEmail())) {
@@ -40,12 +43,17 @@ public class UserService {
         );
         return userRepository.save(user);
     }
-    public boolean validateUser(String userId, String rawPassword) {
+    public void validateUser(String userId, String rawPassword) {
         User user = userRepository.findByUserid(userId)
-                .orElse(null);
-        if (user == null) {
-            return false;
+                .orElseThrow(() -> new UserException(UserStatusCode.USER_NOT_FOUND));
+        if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
+            throw new UserException(UserStatusCode.INVALID_INPUT, "비밀번호가 일치하지 않습니다.");
         }
-        return passwordEncoder.matches(rawPassword, user.getPassword());
+    }
+    public String createAccessToken(String userId) {
+        return jwtTokenProvider.createAccessToken(userId, "ROLE_USER");
+    }
+    public String createRefreshToken(String userId) {
+        return jwtTokenProvider.createRefreshToken(userId);
     }
 }

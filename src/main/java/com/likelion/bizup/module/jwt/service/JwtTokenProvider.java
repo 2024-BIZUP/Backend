@@ -1,4 +1,6 @@
 package com.likelion.bizup.module.jwt.service;
+import com.likelion.bizup.global.error.TokenStatusCode;
+import com.likelion.bizup.global.error.exception.TokenException;
 import com.likelion.bizup.module.jwt.entity.UserRefreshToken;
 import com.likelion.bizup.module.jwt.repository.UserRefreshTokenRepository;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -52,9 +54,11 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException e) {
-            throw new IllegalArgumentException("만료된 JWT 토큰입니다.");
+            throw new TokenException(TokenStatusCode.TOKEN_EXPIRED);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("JWT 토큰이 비어있습니다.");
+            throw new TokenException(TokenStatusCode.TOKEN_EMPTY);
+        } catch (Exception e) {
+            throw new TokenException(TokenStatusCode.TOKEN_INVALID);
         }
     }
     public String getUserIdFromToken(String token) {

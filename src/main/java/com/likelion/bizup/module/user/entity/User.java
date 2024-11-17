@@ -2,10 +2,12 @@ package com.likelion.bizup.module.user.entity;
 import com.likelion.bizup.global.common.BaseTime;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user")
 @Getter
+@NoArgsConstructor
 public class User extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,9 +43,5 @@ public class User extends BaseTime {
         this.itemSendLocation = itemSendLocation;
         this.accountName = accountName;
         this.accountNum = accountNum;
-    }
-
-    public User() {
-
     }
 }

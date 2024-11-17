@@ -1,5 +1,9 @@
 package com.likelion.bizup.module.user.controller;
 
+import com.likelion.bizup.global.error.GlobalStatusCode;
+import com.likelion.bizup.global.error.UserStatusCode;
+import com.likelion.bizup.global.error.exception.AppException;
+import com.likelion.bizup.global.error.exception.UserException;
 import com.likelion.bizup.module.jwt.dto.request.TokenRequestDto;
 import com.likelion.bizup.module.jwt.dto.response.AccessTokenResponseDto;
 import com.likelion.bizup.module.user.dto.request.LoginRequestDto;
@@ -19,11 +23,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private final JwtTokenProvider jwtTokenProvider;
-
-    public UserController(JwtTokenProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+    private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRegistrationDto dto) {
@@ -31,26 +31,30 @@ public class UserController {
             User registeredUser = userService.registerUser(dto);
             return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            throw new UserException(UserStatusCode.DUPLICATE_USER, e.getMessage());
+        } catch (Exception e) {
+            throw new AppException(GlobalStatusCode.INTERNAL_SERVER_ERROR,e.getMessage());
         }
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest) {
-        boolean isValidUser = userService.validateUser(loginRequest.getUserid(), loginRequest.getPassword());
-        if (!isValidUser) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다.");
+        try {
+            userService.validateUser(loginRequest.getUserid(), loginRequest.getPassword());
+            // 토큰 생성
+            String accessToken = userService.createAccessToken(loginRequest.getUserid());
+            String refreshToken = userService.createRefreshToken(loginRequest.getUserid());
+            return ResponseEntity.ok(new LoginResponseDto(accessToken, refreshToken));
+        } catch (UserException e) {
+            return ResponseEntity.status(e.getHttpStatus()).body(new LoginResponseDto(null, e.getMessage()));
+        } catch (Exception e) {
+            throw new AppException(GlobalStatusCode.INTERNAL_SERVER_ERROR, "로그인 처리 중 알 수 없는 오류가 발생했습니다.");
         }
-        String accessToken = jwtTokenProvider.createAccessToken(loginRequest.getUserid(), "ROLE_USER");
-        String refreshToken = jwtTokenProvider.createRefreshToken(loginRequest.getUserid());
-        return ResponseEntity.ok(new LoginResponseDto(accessToken, refreshToken));
     }
-
     @PostMapping("/renew")
     public ResponseEntity<?> renewAccessToken(@RequestBody TokenRequestDto tokenRequest) {
         String newAccessToken = jwtTokenProvider.renewAccessToken(tokenRequest.getUserId(), tokenRequest.getRefreshToken());
         return ResponseEntity.ok(new AccessTokenResponseDto(newAccessToken));
     }
-
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestBody TokenRequestDto tokenRequest) {
         try {
