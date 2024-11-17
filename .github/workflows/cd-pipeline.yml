@@ -1,15 +1,13 @@
 name: Java CD with Gradle
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
 permissions:
   id-token: write
   contents: read
-  checks: write
-  pull-requests: write
 
 jobs:
   build:
