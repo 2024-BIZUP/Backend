@@ -1,6 +1,6 @@
 package com.likelion.bizup.module.jwt.service;
-import com.likelion.bizup.global.error.TokenStatusCode;
-import com.likelion.bizup.global.error.exception.TokenException;
+import com.likelion.bizup.module.jwt.TokenStatusCode;
+import com.likelion.bizup.module.jwt.exception.TokenException;
 import com.likelion.bizup.module.jwt.entity.UserRefreshToken;
 import com.likelion.bizup.module.jwt.repository.UserRefreshTokenRepository;
 import io.jsonwebtoken.ExpiredJwtException;

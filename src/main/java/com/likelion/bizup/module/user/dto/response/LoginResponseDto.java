@@ -6,8 +6,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-@Schema
+@Schema(description = "로그인 응답 DTO")
 public class LoginResponseDto {
+    @Schema(description = "Access Token", example = "generatedAccessToken")
     private String accessToken;
+    @Schema(description = "Refresh Token", example = "generatedRefreshToken")
     private String refreshToken;
 }

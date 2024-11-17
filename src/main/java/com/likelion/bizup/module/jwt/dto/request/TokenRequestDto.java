@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-@Schema
+@Schema(description = "로그아웃할 때 요청 dto")
 public class TokenRequestDto {
     private String userId;
     private String refreshToken;

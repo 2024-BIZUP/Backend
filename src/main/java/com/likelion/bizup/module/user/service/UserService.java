@@ -1,7 +1,7 @@
 package com.likelion.bizup.module.user.service;
 
-import com.likelion.bizup.global.error.UserStatusCode;
-import com.likelion.bizup.global.error.exception.UserException;
+import com.likelion.bizup.module.user.UserStatusCode;
+import com.likelion.bizup.module.user.exception.UserException;
 import com.likelion.bizup.module.jwt.service.JwtTokenProvider;
 import com.likelion.bizup.module.user.dto.request.UserRegistrationDto;
 import com.likelion.bizup.module.user.entity.User;
@@ -20,25 +20,19 @@ public class UserService {
     private JwtTokenProvider jwtTokenProvider;
 
     public User registerUser(UserRegistrationDto dto) {
-        if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new IllegalArgumentException("가입된 메일이 존재합니다.");
-        }
         if (userRepository.existsByUserid(dto.getUserid())) {
             throw new IllegalArgumentException("가입된 아이디가 존재합니다.");
         }
         User user = new User(
                 dto.getUserid(),
-                dto.getEmail(),
                 passwordEncoder.encode(dto.getPassword()),
                 dto.getPhone(),
                 dto.getBusinessName(),
-                dto.getBusinessEmail(),
-                dto.getBusinessPhone(),
                 dto.getBusinessAddress(),
                 dto.getDescription(),
-                dto.getRegion(),
+                dto.getBusinessNum(),
                 dto.getItemSendLocation(),
-                dto.getAccountName(),
+                dto.getNickname(),
                 dto.getAccountNum()
         );
         return userRepository.save(user);

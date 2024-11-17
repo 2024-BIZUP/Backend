@@ -1,4 +1,4 @@
-package com.likelion.bizup.global.error;
+package com.likelion.bizup.module.jwt;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 @Getter

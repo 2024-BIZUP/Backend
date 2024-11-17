@@ -1,5 +1,5 @@
-package com.likelion.bizup.global.error.exception;
-import com.likelion.bizup.global.error.TokenStatusCode;
+package com.likelion.bizup.module.jwt.exception;
+import com.likelion.bizup.module.jwt.TokenStatusCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,5 +1,6 @@
-package com.likelion.bizup.global.error;
+package com.likelion.bizup.module.user;
 
+import com.likelion.bizup.global.error.StatusCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
