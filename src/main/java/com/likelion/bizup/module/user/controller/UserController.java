@@ -12,21 +12,17 @@ import com.likelion.bizup.module.user.dto.response.LoginResponseDto;
 import com.likelion.bizup.module.user.entity.User;
 import com.likelion.bizup.module.jwt.service.JwtTokenProvider;
 import com.likelion.bizup.module.user.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
+public class UserController implements UserControllerDocs {
     @Autowired
     private UserService userService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-
-    @Operation(summary = "회원가입 API", description = "아이디, 비밀번호, 사업자 정보를 기입합니다.")
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRegistrationDto dto) {
         try {
@@ -38,7 +34,7 @@ public class UserController {
             throw new AppException(GlobalStatusCode.INTERNAL_SERVER_ERROR,e.getMessage());
         }
     }
-    @Operation(summary = "로그인 API", description = "사용자가 아이디와 비밀번호로 로그인합니다.")
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequest) {
         try {
