@@ -1,5 +1,6 @@
 package com.likelion.bizup.global.error.handler;
 
+import com.likelion.bizup.module.jwt.exception.TokenException;
 import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,19 @@ public class GlobalExceptionHandler {
 	// AppException > 서비스 기능 제공 내에서 난 에러인 경우 해당 핸들러를 이용하여 에러 처리
 	@ExceptionHandler(AppException.class)
 	public ResponseEntity<ResponseDto> exceptionHandler(AppException e) {
+		int code = e.getErrorCode().getHttpStatus().value();
+		String message = e.getMessage();
+
+		// 내부 서버 에러일 경우, stack trace 출력
+		if (code == 500)
+			e.printStackTrace();
+
+		return ResponseEntity.status(code).body(ResponseDto.of(code, message));
+	}
+
+	// AppException > JWT 인증 중 Filter 에서 난 에러인 경우 해당 핸들러를 이용하여 에러 처리
+	@ExceptionHandler(TokenException.class)
+	public ResponseEntity<ResponseDto> exceptionHandler(TokenException e) {
 		int code = e.getErrorCode().getHttpStatus().value();
 		String message = e.getMessage();
 
