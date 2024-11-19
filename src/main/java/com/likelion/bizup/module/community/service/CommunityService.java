@@ -142,7 +142,6 @@ public class CommunityService {
                 .collect(Collectors.toList());
     }
 
-
     // 좋아요 내림차순으로 출력
     public List<CommunityResponse> getCommunitiesByLikeCount(String sortOrder) {
         if ("likeDesc".equals(sortOrder)) {
@@ -159,6 +158,4 @@ public class CommunityService {
                     .collect(Collectors.toList());
         }
     }
-
-
 }
