@@ -64,6 +64,7 @@ public interface UserControllerDocs {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "코드 인증 되었습니다. 다음 단계를 진행해주세요"),
             @ApiResponse(responseCode = "403", description = "코드 인증에 실패했습니다."),
+            @ApiResponse(responseCode = "404", description = "코드 사이즈가 일치하지 않습니다."),
             @ApiResponse(responseCode = "500", description = "내부 서버 오류가 발생했습니다.")
     })
     ResponseEntity<ResponseDto> checkCodeValidate(String code);
