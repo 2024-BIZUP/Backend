@@ -60,6 +60,9 @@ dependencies {
 
 	// Jackson JSON 처리 라이브러리
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
 tasks.named('test') {
