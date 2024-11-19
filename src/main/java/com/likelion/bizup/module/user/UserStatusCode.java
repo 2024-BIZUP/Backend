@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum UserStatusCode implements StatusCode {
+    CODE_SIZE_ERROR(HttpStatus.BAD_REQUEST, "코드 사이즈가 일치하지 않습니다."),
     INVALIDATE_CODE(HttpStatus.FORBIDDEN, "코드 인증에 실패했습니다."),
     DUPLICATE_BNO(HttpStatus.CONFLICT, "이미 검증을 시도한 사업자 번호가 있습니다."),
     VALIDATE_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "검증 여부 이력이 없습니다."),
