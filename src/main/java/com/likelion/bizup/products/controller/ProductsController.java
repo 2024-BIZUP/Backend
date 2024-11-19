@@ -25,22 +25,7 @@ public class ProductsController {
     }
 
 
-//    수정
-//    @PutMapping("/update/{productId}")
-//    public ResponseEntity<Void> updateProducts(@PathVariable Long ProductId,@RequestBody ProductUpdateRequest request ){
-//        productsService.updateProducts(ProductId, request.getProductsUpdateDto(), request.getTextStyleRequest());
-//        return ResponseEntity.status(HttpStatus.OK).build();
-//    }
-//    @PutMapping("/update/{productId}")
-//    public ResponseEntity<Void> updateProducts(@PathVariable Long productId, @RequestBody ProductUpdateRequest request) {
-//        try {
-//            productsService.updateProducts(productId, request.getProductsUpdateDto(), request.getTextStyleRequest());
-//            return ResponseEntity.status(HttpStatus.OK).build();
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-//        }
-//    }
-// 수정을 위한 API 엔드포인트
+    // 수정
     @PutMapping("/update/{productId}")
     public ResponseEntity<Products> updateProducts(@PathVariable Long productId, @RequestBody ProductUpdateRequest request) {
         return productsService.updateProducts(productId, request.getProductsUpdateDto(), request.getTextStyleRequest());

@@ -1,5 +1,6 @@
 package com.likelion.bizup.products.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.likelion.bizup.products.dto.ProductOptionDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,12 +34,17 @@ public class Products {
     @Column(nullable = false)
     private String price;
 
+    @Column
+    private Integer discountPrice;
+
     //할인 부분
     @Column(nullable = false)
     private boolean discount;
 
     @Column
     private int discount_amount; //할인 숫자 퍼센트
+
+
 
     @Column
     @Temporal(TemporalType.DATE)
@@ -49,11 +56,12 @@ public class Products {
 
 
     //옵션 적용
-    @Column(nullable = false, name="`option`")
+    @Column(name="`option`")
     private boolean option;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductOption> options;  // 상품 옵션을 리스트로 참조
+    @JsonManagedReference
+    private List<ProductOption> options = new ArrayList<>();  // 상품 옵션을 리스트로 참조
 
     @Column
     private int option_amount;
@@ -95,10 +103,10 @@ public class Products {
 
 
 
-    public void setOptions(List<ProductOptionDto> options) {
-
-
-            }
+    public void setOptions(List<ProductOption> options) {
+        this.options = options;
+        options.forEach(option -> option.setProduct(this)); // 연관 관계 설정
+    }
 
 //    public List<Style> getStyle(){
 //        return styles;

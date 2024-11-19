@@ -37,8 +37,8 @@ public class ProductsViewDto {
     private LocalDate createdAt;     // 상품 등록일
     private LocalDate updatedAt;     // 상품 수정일
 
-    public ProductsViewDto(Long id, String name, String price, boolean discount, int discountAmount, Date startDate, Date endDate, boolean option, List<ProductOption> options, String shippingPrice, String category, String manufacturer, String title, String imgUrl, String description, LocalDate createAt, LocalDate updateAt) {
-        this.id=id;
+    public ProductsViewDto(Long id, String name, String price, Integer discountPrice, boolean discount, int discountAmount, Date startDate, Date endDate, boolean option, List<ProductOptionDto> productOptionDtos, String shippingPrice, String category, String manufacturer, String title, String imgUrl, String description, LocalDate createAt, LocalDate updateAt) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.discount = discount;
@@ -46,7 +46,7 @@ public class ProductsViewDto {
         this.startDate = startDate;
         this.endDate = endDate;
         this.option = option;
-        this.options = new ArrayList<>();
+        this.options = productOptionDtos;
         this.shippingPrice = shippingPrice;
         this.category = category;
         this.manufacturer = manufacturer;
@@ -57,6 +57,27 @@ public class ProductsViewDto {
         this.updatedAt = updateAt;
 
     }
+
+//    public ProductsViewDto(Long id, String name, String price, Integer discountedPrice, boolean discount, int discountAmount, Date startDate, Date endDate, boolean option, List<ProductOption> options, String shippingPrice, String category, String manufacturer, String title, String imgUrl, String description, LocalDate createAt, LocalDate updateAt) {
+//        this.id=id;
+//        this.name = name;
+//        this.price = price;
+//        this.discount = discount;
+//        this.discountAmount = discountAmount;
+//        this.startDate = startDate;
+//        this.endDate = endDate;
+//        this.option = option;
+//        this.options = new ArrayList<>();
+//        this.shippingPrice = shippingPrice;
+//        this.category = category;
+//        this.manufacturer = manufacturer;
+//        this.title = title;
+//        this.imgUrl = imgUrl;
+//        this.description = description;
+//        this.createdAt = createAt;
+//        this.updatedAt = updateAt;
+//
+//    }
 
 
 

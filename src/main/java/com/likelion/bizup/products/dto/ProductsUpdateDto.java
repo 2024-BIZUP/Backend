@@ -1,5 +1,6 @@
 package com.likelion.bizup.products.dto;
 
+import com.likelion.bizup.products.domain.entity.ProductOption;
 import lombok.Getter;
 import lombok.Setter;
 
