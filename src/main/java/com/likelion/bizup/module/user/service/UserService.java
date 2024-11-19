@@ -72,6 +72,8 @@ public class UserService {
 
     // 코드 인증 > 해당 validate 사용자 번호 반환
     public Long checkCodeValidate(String code) {
+        validateCodeSize(code);
+
         ValidateUser validateUser = validateUserRepository.findByCode(code).orElseThrow(
                 () -> new AppException(UserStatusCode.INVALIDATE_CODE)
         );
@@ -83,6 +85,7 @@ public class UserService {
 
         return validateUser.getId();
     }
+
 
     // 사업자 번호 확인 메일 발송
     public void createValidateUser(ValidateUserRequestDto validateUserReq) {
@@ -98,6 +101,12 @@ public class UserService {
         // 현재는 따로 인증 처리 진행하지 않기에 바로 이메일 발송으로 처리
         if (validateUser.getState() == ValidateState.NOW_VALIDATING) {
             validateBnoEventEventPublisher.publishSignedUpEvent(validateUser);
+        }
+    }
+
+    private static void validateCodeSize(String code) {
+        if(code.length() != 6){
+            throw new AppException(UserStatusCode.CODE_SIZE_ERROR);
         }
     }
 
