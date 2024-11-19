@@ -83,4 +83,10 @@ public class CommunityController {
     public CommunityResponse increaseLikeCount(@PathVariable Long id) {
         return communityService.increaseLikeCount(id);
     }
+
+    // 좋아요 내림차순 출력
+    @GetMapping("/likeDesc")
+    public List<CommunityResponse> getCommunities(@RequestParam(defaultValue = "likeDesc") String sortOrder) {
+        return communityService.getCommunitiesByLikeCount(sortOrder);
+    }
 }

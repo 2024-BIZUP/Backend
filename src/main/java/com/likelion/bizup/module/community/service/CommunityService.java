@@ -142,4 +142,23 @@ public class CommunityService {
                 .collect(Collectors.toList());
     }
 
+
+    // 좋아요 내림차순으로 출력
+    public List<CommunityResponse> getCommunitiesByLikeCount(String sortOrder) {
+        if ("likeDesc".equals(sortOrder)) {
+            // 좋아요 내림차순 정렬
+            System.out.println("좋아요 내림차순 정렬");
+            return communityRepository.findAllByOrderByLikeCountDesc().stream()
+                    .map(this::mapToResponse)
+                    .collect(Collectors.toList());
+        } else {
+            // 기본 정렬(최신 순)
+            System.out.println("기본 정렬(최신 게시물 순)");
+            return communityRepository.findAll().stream()
+                    .map(this::mapToResponse)
+                    .collect(Collectors.toList());
+        }
+    }
+
+
 }

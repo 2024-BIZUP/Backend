@@ -33,10 +33,13 @@ out/
 /nbdist/
 /.nb-gradle/
 
+*.yml
+src/main/resources/application.yml
+
 ### VS Code ###
 .vscode/
 
 ### Secrets ###
 .application.properties
 
-*.yml
+

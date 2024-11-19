@@ -4,6 +4,7 @@ import com.likelion.bizup.global.common.BaseTime;
 import com.likelion.bizup.global.enums.Region;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Builder
