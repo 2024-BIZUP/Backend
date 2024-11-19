@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of(20)
 	}
 }
 
@@ -40,6 +40,19 @@ dependencies {
 
 	// Junit
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// HTTP 클라이언트 라이브러리 추가
+	implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
+
+	// RestTemplate을 사용할 때 필요한 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Apache HttpClient 5.x 사용
+	implementation 'org.apache.httpcomponents.client5:httpclient5:5.2'
+
+	// Jackson JSON 처리 라이브러리
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
 }
 
 tasks.named('test') {
