@@ -3,7 +3,7 @@ name: Java CD with Gradle
 on:
   push:
     branches:
-      - fix/#14/api-path-recog-error
+      - fix/#15/api-path-recog-error
 
 permissions:
   id-token: write
