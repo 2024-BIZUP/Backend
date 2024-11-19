@@ -8,6 +8,10 @@ import lombok.Getter;
 @AllArgsConstructor
 @Schema(description = "회원 등록 요청 DTO")
 public class UserRegistrationDto {
+
+    @Schema(description = "코드 인증 후, 받은 아이디", example = "1")
+    private long validateId;
+
     @Schema(description = "사용자 아이디", example = "user123")
     private String userid;
 
