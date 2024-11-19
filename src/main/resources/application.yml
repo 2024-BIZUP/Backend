@@ -3,9 +3,9 @@ spring:
     name: bizup
 
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://bizup.c9o2euky4o1c.ap-northeast-2.rds.amazonaws.com:3306/bizup
+    username: admin
+    password: bizup12!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -29,3 +29,8 @@ springdoc:
   swagger-ui:
     tags-sorter: alpha
     operations-sorter: method
+
+jwt:
+  secret: 66EC7337C2E53C4B15F6C9892FC9466EC7337C2E53C4B15F6C9892FC9466EC7337C2E53C4B15F6C9892FC94
+  expiration: 1800000           # Access Token 만료 시간 (30분, 밀리초 단위)
+  refreshExpiration: 86400000  # Refresh Token 만료 시간 (24시간, 밀리초 단위)
