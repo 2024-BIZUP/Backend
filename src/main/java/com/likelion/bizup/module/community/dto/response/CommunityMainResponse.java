@@ -14,7 +14,11 @@ import java.time.LocalDateTime;
 @Schema(description = "커뮤니티 메인 화면 응답 객체")
 public class CommunityMainResponse {
     private Long id;
+
+    @Schema(description = "커뮤니티 글 제목", example = "전통시장")
     private String title;
+
+    @Schema(description = "커뮤니티 사진")
     private String imageUrl;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

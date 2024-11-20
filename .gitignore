@@ -40,5 +40,7 @@ out/
 ### Secrets ###
 .application.properties
 
+*.yml
+
 
 

@@ -2,6 +2,7 @@ package com.likelion.bizup.module.community.entity;
 
 import com.likelion.bizup.global.common.BaseTime;
 import com.likelion.bizup.global.enums.Region;
+import com.likelion.bizup.module.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -21,6 +22,13 @@ public class Community extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Column(nullable = false)
+    private String userid;
 
     @Column(nullable = false)
     private String title;
@@ -57,5 +65,7 @@ public class Community extends BaseTime {
         this.image = image;
         this.imageUrl = imageUrl;
         this.likeCount = likeCount;
+        this.user = user;
+        this.userid = user.getUserid();
     }
 }

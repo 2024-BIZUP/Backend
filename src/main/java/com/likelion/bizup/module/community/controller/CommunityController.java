@@ -1,29 +1,28 @@
 package com.likelion.bizup.module.community.controller;
 
-import com.likelion.bizup.global.common.BaseTime;
 import com.likelion.bizup.module.community.dto.request.CommunityRequest;
 import com.likelion.bizup.module.community.dto.response.CommunityResponse;
 import com.likelion.bizup.module.community.service.CommunityService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/community")
 @RequiredArgsConstructor
-public class CommunityController {
+public class CommunityController implements CommunityControllerDocs {
 
     @Autowired
     private CommunityService communityService;
 
     // ChatGPT API로 content를 세련되게 수정하여 반환
     @PostMapping
-    public CommunityResponse checkContent(
+    public ResponseEntity<CommunityResponse> checkContent(
             @RequestPart("communityRequest") CommunityRequest communityRequest,
             @RequestPart(value = "image", required = false) MultipartFile image) {
 
@@ -43,50 +42,55 @@ public class CommunityController {
         response.setRegion(communityRequest.getRegion());
         response.setImageUrl(imageUrl);
 
-        return response;
+        return ResponseEntity.ok(response);
     }
 
-    // ChatGPT 검사하기
+    // ChatGPT 검사한 글 도출
     @PostMapping("/check")
-    public CommunityResponse uploadContent(
+    public ResponseEntity<CommunityResponse> uploadContent(
             @RequestPart("communityRequest") CommunityRequest communityRequest,
             @RequestPart("image") MultipartFile image) {
 
-        return communityService.saveCommunity(communityRequest, image);
+        CommunityResponse savedResponse = communityService.saveCommunity(communityRequest, image);
+        return ResponseEntity.ok(savedResponse);
     }
 
     // 최종 게시물로 등록 (사용자가 수정한 최종 content 저장)
     @PutMapping("/{id}")
-    public CommunityResponse finalUpload(
+    public ResponseEntity<CommunityResponse> finalUpload(
             @PathVariable Long id,
             @RequestPart("communityRequest") CommunityRequest communityRequest,
             @RequestPart(value = "image", required = false) MultipartFile image) {
 
-        return communityService.saveFinalCommunity(id, communityRequest, image);
+        CommunityResponse finalResponse = communityService.saveFinalCommunity(id, communityRequest, image);
+        return ResponseEntity.ok(finalResponse);
     }
-
 
     // 최종 글 불러오기
     @GetMapping("/{id}")
-    public CommunityResponse getCommunity(@PathVariable Long id) {
-        return communityService.getCommunity(id);
+    public ResponseEntity<CommunityResponse> getCommunity(@PathVariable Long id) {
+        CommunityResponse communityResponse = communityService.getCommunity(id);
+        return ResponseEntity.ok(communityResponse);
     }
 
     // 전체 게시물 출력(제목, 시간만)
     @GetMapping
-    public List<CommunityResponse> getAllCommunities() {
-        return communityService.getAllCommunities();
+    public ResponseEntity<List<CommunityResponse>> getAllCommunities() {
+        List<CommunityResponse> communities = communityService.getAllCommunities();
+        return ResponseEntity.ok(communities);
     }
 
     // 좋아요 추가
     @PostMapping("/{id}/like")
-    public CommunityResponse increaseLikeCount(@PathVariable Long id) {
-        return communityService.increaseLikeCount(id);
+    public ResponseEntity<CommunityResponse> increaseLikeCount(@PathVariable Long id) {
+        CommunityResponse updatedResponse = communityService.increaseLikeCount(id);
+        return ResponseEntity.ok(updatedResponse);
     }
 
     // 좋아요 내림차순 출력
     @GetMapping("/likeDesc")
-    public List<CommunityResponse> getCommunities(@RequestParam(defaultValue = "likeDesc") String sortOrder) {
-        return communityService.getCommunitiesByLikeCount(sortOrder);
+    public ResponseEntity<List<CommunityResponse>> getCommunities(@RequestParam(defaultValue = "likeDesc") String sortOrder) {
+        List<CommunityResponse> communities = communityService.getCommunitiesByLikeCount(sortOrder);
+        return ResponseEntity.ok(communities);
     }
 }
