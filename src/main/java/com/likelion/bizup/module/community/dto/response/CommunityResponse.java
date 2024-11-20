@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Schema(description = "커뮤니티 응답 객체")
-public class CommunityResponse extends BaseTime {
+public class CommunityResponse {
     private Long id;
 
-    @Schema(description = "사용자 아이디", example = "user123")
-    private String userid;
+    //@Schema(description = "사용자 아이디", example = "user123")
+    //private String userid;
 
     @Schema(description = "커뮤니티 글 제목", example = "전통시장")
     private String title;

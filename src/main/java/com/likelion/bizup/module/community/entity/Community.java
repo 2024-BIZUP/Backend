@@ -23,12 +23,12 @@ public class Community extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    //@ManyToOne
+    //@JoinColumn(name = "user_id")
+    //private User user;
 
-    @Column(nullable = false)
-    private String userid;
+    //@Column(nullable = false)
+    //private String userid;
 
     @Column(nullable = false)
     private String title;
@@ -56,7 +56,7 @@ public class Community extends BaseTime {
 
     @Builder
     public Community(String title, String originalContent, String modifiedContent, String finalContent,
-                     Region region, String image, String imageUrl, int likeCount) {
+                     Region region, String image, String imageUrl, int likeCount, User user) {
         this.title = title;
         this.originalContent = originalContent;
         this.modifiedContent = modifiedContent;
@@ -65,7 +65,7 @@ public class Community extends BaseTime {
         this.image = image;
         this.imageUrl = imageUrl;
         this.likeCount = likeCount;
-        this.user = user;
-        this.userid = user.getUserid();
+        //this.user = user;
+        //this.userid = user.getUserid();
     }
 }
