@@ -2,6 +2,7 @@ package com.likelion.bizup.products.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.likelion.bizup.products.dto.ProductOptionDto;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

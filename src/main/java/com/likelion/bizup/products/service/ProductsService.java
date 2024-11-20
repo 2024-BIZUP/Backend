@@ -121,13 +121,6 @@ public class ProductsService {
         return styledText.toString();
     }
 
-//    // 할인 계산 메서드
-//    private int applyDiscount(int price, int discountAmount, boolean isDiscount) {
-//        if (isDiscount) {
-//            return price - (price * discountAmount / 100);
-//        }
-//        return price;
-//    }
 
     // 상품 수정
     @Transactional
@@ -145,56 +138,42 @@ public class ProductsService {
             product.setEndDate(dto.getEndDate());
             int discountPrice = applyDiscount(Integer.parseInt(dto.getPrice()), dto.getDiscountAmount(), true);
             product.setDiscountPrice(discountPrice);
-//      
+
         }else {
             product.setDiscount(false);
         }
 
-//        //옵션 설정
-//        if (dto.isOption() && dto.getOptions() != null) {
-//            List<ProductOption> updatedOptions = dto.getOptions().stream()
-//                    .map(optionDto -> {
-//                        ProductOption option = new ProductOption();
-//                        option.setOptionName(optionDto.getOptionName());
-//                        option.setOptionPrice(optionDto.getOptionPrice());
-//                        int discountedPrice = applyDiscount(optionDto.getOptionPrice(), dto.getDiscountAmount(), dto.isDiscount());
-//                        option.setOptionDiscountedPrice(discountedPrice);
-//                        return option;
-//                    })
-//                    .collect(Collectors.toList());
-//            product.getOptions().clear();
-//            product.setOptions(updatedOptions);  // 옵션 리스트 업데이트
-//        } else {
-//            product.setOption(false);
-//            product.getOptions().clear();
-//        }
-
         if (dto.isOption() && dto.getOptions() != null) {
             for (ProductOptionDto optionDto : dto.getOptions()) {
-                // 기존 옵션이 있다면 업데이트하고, 없다면 추가
+                // 기존 옵션 확인: 이름(optionName)을 기준으로 비교
                 Optional<ProductOption> existingOption = product.getOptions().stream()
-                        .filter(option -> option.getId().equals(optionDto.getId()))
+                        .filter(option -> option.getOptionName().equals(optionDto.getOptionName()))
                         .findFirst();
 
                 if (existingOption.isPresent()) {
+                    // 기존 옵션이 있다면 업데이트
                     ProductOption option = existingOption.get();
                     option.setOptionName(optionDto.getOptionName());
                     option.setOptionPrice(optionDto.getOptionPrice());
                     int discountedPrice = applyDiscount(optionDto.getOptionPrice(), dto.getDiscountAmount(), dto.isDiscount());
                     option.setOptionDiscountedPrice(discountedPrice);
                 } else {
+                    // 새로운 옵션 추가
                     ProductOption newOption = new ProductOption();
                     newOption.setOptionName(optionDto.getOptionName());
                     newOption.setOptionPrice(optionDto.getOptionPrice());
                     int discountedPrice = applyDiscount(optionDto.getOptionPrice(), dto.getDiscountAmount(), dto.isDiscount());
                     newOption.setOptionDiscountedPrice(discountedPrice);
-                    product.getOptions().add(newOption);  // 새로운 옵션 추가
+                    newOption.setProduct(product); // 연관 관계 설정
+                    product.getOptions().add(newOption);
                 }
             }
         } else {
+            // 옵션이 없을 경우
             product.setOption(false);
-            product.getOptions().clear();  // 옵션이 없을 경우, 옵션 비우기
+            product.getOptions().clear(); // 옵션 비우기
         }
+
 
 
         if (dto.getShippingPrice() != null) product.setShipping_price(dto.getShippingPrice());
@@ -237,11 +216,13 @@ public class ProductsService {
             product.getStartDate(),
             product.getEndDate(),
             product.isOption(),
-//            product.getOptions(),
+            product.getOption_amount(),
             mapOptions(product.getOptions()),// 옵션 DTO로 매핑
             product.getShipping_price(),
             product.getCategory(),
             product.getManufacturer(),
+            product.getHarvest_date(),
+            product.getExpiration_date(),
             product.getTitle(),
             product.getImgUrl(),
             product.getDescription(),
@@ -267,11 +248,13 @@ public class ProductsService {
                         product.getStartDate(),
                         product.getEndDate(),
                         product.isOption(),
-//                        product.getOptions(), // 옵션 리스트 포함
+                        product.getOption_amount(),
                         mapOptions(product.getOptions()),
                         product.getShipping_price(),
                         product.getCategory(),
                         product.getManufacturer(),
+                        product.getHarvest_date(),
+                        product.getExpiration_date(),
                         product.getTitle(),
                         product.getImgUrl(),
                         product.getDescription(),
@@ -287,7 +270,6 @@ public class ProductsService {
     private List<ProductOptionDto> mapOptions(List<ProductOption> productOptions) {
         return productOptions.stream()
                 .map(option -> new ProductOptionDto(
-                        option.getId(),
                         option.getOptionName(),
                         option.getOptionPrice(),
                         option.getOptionDiscountedPrice()

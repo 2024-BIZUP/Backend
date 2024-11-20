@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Tag(name = "게시물", description = "게시물 관련 api")
 public interface PostControllerDocs {
@@ -17,4 +18,5 @@ public interface PostControllerDocs {
 		@ApiResponse(responseCode = "200", description = "요청이 성공했습니다.", useReturnTypeSchema = true)
 	})
 	ResponseEntity<ResponseDto> readDetailPost(Long postId);
+
 }

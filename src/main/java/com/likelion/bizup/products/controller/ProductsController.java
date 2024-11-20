@@ -12,7 +12,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
-public class ProductsController {
+
+public class ProductsController implements ProductsControllerDocs {
 
     @Autowired
     private ProductsService productsService;
@@ -20,16 +21,18 @@ public class ProductsController {
 
     //등록
     @PostMapping("/create")
-    public Products createProducts(@RequestBody ProductsCreateRequest request) {
-        return productsService.saveProducts(request.getProductsCreateDto(), request.getTextStyleRequest());
+    public ResponseEntity<Products> createProducts(@RequestBody ProductsCreateRequest request) {
+        productsService.saveProducts(request.getProductsCreateDto(), request.getTextStyleRequest());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 
     // 수정
     @PutMapping("/update/{productId}")
     public ResponseEntity<Products> updateProducts(@PathVariable Long productId, @RequestBody ProductUpdateRequest request) {
-        return productsService.updateProducts(productId, request.getProductsUpdateDto(), request.getTextStyleRequest());
-}
+        productsService.updateProducts(productId, request.getProductsUpdateDto(), request.getTextStyleRequest());
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 
 
