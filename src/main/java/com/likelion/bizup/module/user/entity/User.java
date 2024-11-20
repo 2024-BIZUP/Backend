@@ -15,7 +15,7 @@ public class User extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String userid;
+    public String userid;
     private String password;
     private String phone;
     private String businessName;

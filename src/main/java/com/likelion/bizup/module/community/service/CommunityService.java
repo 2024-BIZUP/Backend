@@ -95,6 +95,7 @@ public class CommunityService {
 
         CommunityResponse response = new CommunityResponse();
         response.setId(community.getId());
+        response.setUserid(community.getUser().getUserid());
         response.setTitle(community.getTitle());
         response.setContent(community.getFinalContent() != null ? community.getFinalContent() : community.getModifiedContent());
         response.setRegion(community.getRegion());
@@ -120,6 +121,7 @@ public class CommunityService {
     private CommunityResponse mapToResponse(Community community) {
         CommunityResponse response = new CommunityResponse();
         response.setId(community.getId());
+        response.setUserid(community.getUser().getUserid());
         response.setTitle(community.getTitle());
         response.setContent(community.getFinalContent() != null ? community.getFinalContent() : community.getModifiedContent());
         response.setRegion(community.getRegion());
@@ -131,9 +133,10 @@ public class CommunityService {
     }
 
     public List<CommunityResponse> getAllCommunities() {
-        return communityRepository.findAll().stream()
+        return communityRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(community -> CommunityResponse.builder()
                         .id(community.getId())
+                        .userid(community.getUser().getUserid())
                         .title(community.getTitle())
                         .imageUrl(community.getImageUrl())
                         .createdAt(community.getCreatedAt())
