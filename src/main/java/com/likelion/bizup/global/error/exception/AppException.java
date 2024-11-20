@@ -3,6 +3,7 @@ package com.likelion.bizup.global.error.exception;
 
 import com.likelion.bizup.global.error.StatusCode;
 
+import com.likelion.bizup.module.post.code.PostStatusCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
