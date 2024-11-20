@@ -31,13 +31,4 @@ public class ProductOption {
     @Column
     private int optionDiscountedPrice;
 
-//    public ProductOption(String optionName, int optionPrice, Products product) {
-//        this.optionName = optionName;
-//        this.optionPrice = optionPrice;
-//        this.product = product;
-//    }
-
-//    public ProductOption(String optionName, int optionPrice, Products product) {
-//
-//    }
 }

@@ -109,13 +109,6 @@ public class Products {
         options.forEach(option -> option.setProduct(this)); // 연관 관계 설정
     }
 
-//    public List<Style> getStyle(){
-//        return styles;
-//    }
-//
-//    public void setStyle(List<Style> styles){
-//        this.styles=styles;
-//    }
 }
 
 

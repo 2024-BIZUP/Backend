@@ -24,8 +24,4 @@ public class ProductOptionDto {
         this.optionDiscountedPrice = optionDiscountedPrice;
     }
 
-//    public ProductOptionDto(String optionName, int optionPrice) {
-//        this.optionName = optionName;
-//        this.optionPrice = optionPrice;
-//    }
 }
