@@ -18,7 +18,7 @@ import java.util.List;
 @Tag(name = "Community API", description = "커뮤니티에 올리는 게시글을 생성, 조회합니다.")
 public interface CommunityControllerDocs {
 
-    @Operation(summary = "ChatGPT 검사 API", description = "게시물 작성 후 ChatGPT API를 활용해 글 내용을 세련되게 변경합니다.")
+    @Operation(summary = "ChatGPT 검사 API(검토용)", description = "ChatGPT API를 활용해 글 내용을 변환하는 과정입니다. 프론트 쪽에서 적용 X")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "글 내용 수정 완료"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
@@ -26,7 +26,7 @@ public interface CommunityControllerDocs {
     ResponseEntity<CommunityResponse> checkContent(@RequestPart CommunityRequest communityRequest,
                                                    @RequestPart(value = "image", required = false) MultipartFile image);
 
-    @Operation(summary = "커뮤니티 글 저장", description = "ChatGPT 검사 후 최종적으로 글을 저장합니다.")
+    @Operation(summary = "ChatGPT 검사 API", description = "최종적으로 ChatGPT API를 활용해 글 내용을 세련되게 변경해 저장합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "글 저장 성공"),
             @ApiResponse(responseCode = "500", description = "서버 내부 오류")
