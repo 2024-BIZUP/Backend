@@ -76,18 +76,24 @@ public class CommunityService {
 
     public String uploadImage(MultipartFile photoFile) {
         try {
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();  // 경로가 없으면 생성
+            }
+
             UUID uuid = UUID.randomUUID();
             String fileName = uuid.toString() + "_" + photoFile.getOriginalFilename();
             File itemImgFile = new File(uploadPath, fileName);
             photoFile.transferTo(itemImgFile);
 
-            // 이미지 파일을 서버에 저장한 후 그 URL을 반환
+            // 서버에 저장한 이미지 파일 URL 반환
             return uploadPath + "/" + fileName;
         } catch (Exception e) {
-            // 예외 처리: 이미지 업로드 실패 시 처리
+            log.error("Error during image upload: " + e.getMessage(), e);
             return null;
         }
     }
+
 
     public CommunityResponse getCommunity(Long communityId) {
         Community community = communityRepository.findById(communityId)
