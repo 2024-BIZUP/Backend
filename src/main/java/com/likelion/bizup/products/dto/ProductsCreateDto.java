@@ -36,7 +36,7 @@ public class ProductsCreateDto {
     @Schema(description = "상품 옵션 여부", example = "true")
     private boolean option;          // 옵션 여부
 
-    @Schema(description = "상품 옵션 개수", example = "2")
+    @Schema(description = "상품 옵션 개수", example = "1")
     private int optionAmount;        //옵션 개수
 
     @Schema(description = "상품 옵션 리스트")
